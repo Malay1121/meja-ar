@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MejaAR - Comprehensive Database Setup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'meja-orange': '#FF6B35',
+                        'meja-teal': '#4ECDC4',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-6xl mx-auto p-8">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-meja-orange mb-2">🔥 MejaAR Database Setup</h1>
+            <p class="text-gray-600 mb-8">Populate your Firestore with comprehensive restaurant data including network images and 3D models</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Test Connection -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">1️⃣ Test Firebase Connection</h2>
+                    <button id="testConnection" class="bg-meja-orange text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors w-full">
+                        Test Connection
+                    </button>
+                    <div id="connectionResult" class="mt-4"></div>
+                </div>
+
+                <!-- Add All Restaurants -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">2️⃣ Add All Restaurants</h2>
+                    <button id="addAllRestaurants" class="bg-meja-teal text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition-colors w-full">
+                        Add 5 Restaurants
+                    </button>
+                    <div id="restaurantResult" class="mt-4"></div>
+                </div>
+
+                <!-- Add Demo Menu Items -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">3️⃣ Add Demo Menu Items</h2>
+                    <button id="addDemoMenu" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors w-full">
+                        Add Demo Restaurant Menu (3 items)
+                    </button>
+                    <div id="demoMenuResult" class="mt-4"></div>
+                </div>
+
+                <!-- Add Indian Menu Items -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">4️⃣ Add Indian Menu Items</h2>
+                    <button id="addIndianMenu" class="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors w-full">
+                        Add The Spice Garden Menu (8 items)
+                    </button>
+                    <div id="indianMenuResult" class="mt-4"></div>
+                </div>
+
+                <!-- Add Italian Menu Items -->
+                <div class="border border-gray-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">5️⃣ Add Italian Menu Items</h2>
+                    <button id="addItalianMenu" class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 transition-colors w-full">
+                        Add Bella Italia Menu (6 items)
+                    </button>
+                    <div id="italianMenuResult" class="mt-4"></div>
+                </div>
+
+                <!-- Clear All Data -->
+                <div class="border border-red-200 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">🗑️ Clear All Data</h2>
+                    <button id="clearAllData" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors w-full">
+                        Clear All Data (Danger!)
+                    </button>
+                    <div id="clearResult" class="mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Test URLs -->
+            <div class="mt-8 bg-gray-50 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">🚀 Test Your Restaurants</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="http://localhost:5174/mejar-demo-restaurant" target="_blank" 
+                       class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow text-center">
+                        <div class="text-lg font-semibold text-meja-orange">MejaAR Demo</div>
+                        <div class="text-sm text-gray-600">Mixed Cuisine</div>
+                    </a>
+                    <a href="http://localhost:5174/the-spice-garden" target="_blank" 
+                       class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow text-center">
+                        <div class="text-lg font-semibold text-meja-orange">The Spice Garden</div>
+                        <div class="text-sm text-gray-600">Indian Cuisine</div>
+                    </a>
+                    <a href="http://localhost:5174/bella-italia" target="_blank" 
+                       class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow text-center">
+                        <div class="text-lg font-semibold text-meja-orange">Bella Italia</div>
+                        <div class="text-sm text-gray-600">Italian Cuisine</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="mt-8 bg-blue-50 rounded-lg p-6">
+                <h2 class="text-xl font-semibold mb-4">✨ Features Included</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>High-quality Unsplash food images</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Working 3D models for AR viewing</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Multiple cuisines (Indian, Italian, Mixed)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Realistic pricing (₹ and $ support)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Detailed food descriptions</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Category organization</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Restaurant branding</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-green-500">✅</span>
+                        <span>Multi-tenant architecture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, setDoc, collection, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase config - Updated to match your .env file
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYrE6RE9wzG33p3aAlmv4QReFdxn_zRKQ",
+            authDomain: "mejaar-app.firebaseapp.com",
+            projectId: "mejaar-app",
+            storageBucket: "mejaar-app.firebasestorage.app",
+            messagingSenderId: "881726352245",
+            appId: "1:881726352245:web:c9efd1db6816af20e8013c",
+            measurementId: "G-Q13TMJG460"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Helper function to show results
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <div class="p-4 rounded-lg ${isSuccess ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                    ${message}
+                </div>
+            `;
+        }
+
+        // Sample restaurant data
+        const RESTAURANTS = [
+            {
+                id: "mejar-demo-restaurant",
+                restaurantId: "mejar-demo-restaurant",
+                name: "MejaAR Demo Restaurant",
+                description: "Experience food in Augmented Reality - powered by MejaAR platform",
+                logoPath: "https://images.unsplash.com/photo-1537047902294-62a40c20a6ae?w=300&h=300&fit=crop&auto=format",
+                primaryColor: "#FF6B35",
+                accentColor: "#4ECDC4",
+                isActive: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: "the-spice-garden",
+                restaurantId: "the-spice-garden",
+                name: "The Spice Garden",
+                description: "Authentic Indian cuisine with traditional spices and modern AR experience",
+                logoPath: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=300&fit=crop&auto=format",
+                primaryColor: "#FF6B35",
+                accentColor: "#4ECDC4",
+                isActive: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                id: "bella-italia",
+                restaurantId: "bella-italia",
+                name: "Bella Italia",
+                description: "Traditional Italian recipes with AR visualization technology",
+                logoPath: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=300&fit=crop&auto=format",
+                primaryColor: "#FF6B35",
+                accentColor: "#4ECDC4",
+                isActive: true,
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        // Sample menu items
+        const DEMO_MENU = [
+            {
+                restaurantId: "mejar-demo-restaurant",
+                name: "Gourmet Angus Burger",
+                description: "A juicy, flame-grilled Angus beef patty with fresh lettuce, tomatoes, and our secret sauce on a brioche bun.",
+                price: 1499,
+                category: "Main Course",
+                imagePath: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "mejar-demo-restaurant",
+                name: "Classic Margherita Pizza",
+                description: "Hand-tossed dough with rich tomato base, fresh mozzarella cheese, and aromatic basil leaves.",
+                price: 1850,
+                category: "Pizza",
+                imagePath: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "mejar-demo-restaurant",
+                name: "Butter Chicken Deluxe",
+                description: "Tender chicken pieces in a rich, creamy tomato-based sauce with aromatic Indian spices.",
+                price: 1975,
+                category: "Indian",
+                imagePath: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/shishkebab.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        const INDIAN_MENU = [
+            {
+                restaurantId: "the-spice-garden",
+                name: "Butter Chicken",
+                description: "Tender chicken pieces in a rich, creamy tomato-based sauce with aromatic spices. Served with basmati rice.",
+                price: 38000,
+                category: "North Indian",
+                imagePath: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Chicken Biryani",
+                description: "Fragrant basmati rice layered with marinated chicken, fried onions, and aromatic spices.",
+                price: 42000,
+                category: "Biryani",
+                imagePath: "https://images.unsplash.com/photo-1563379091339-03246963d96c?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Paneer Makhani",
+                description: "Soft cottage cheese cubes in a creamy tomato curry with cashews and aromatic spices.",
+                price: 32000,
+                category: "North Indian",
+                imagePath: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/shishkebab.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Masala Dosa",
+                description: "Crispy fermented crepe filled with spiced potato curry. Served with coconut chutney and sambar.",
+                price: 18000,
+                category: "South Indian",
+                imagePath: "https://images.unsplash.com/photo-1630383249896-424e482df921?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://cdn.glitch.me/36cb8393-65c6-408d-a538-055ada20431b/Avocado.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Tandoori Chicken",
+                description: "Half chicken marinated in yogurt and spices, cooked in a traditional clay oven.",
+                price: 45000,
+                category: "Tandoori",
+                imagePath: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://cdn.glitch.me/36cb8393-65c6-408d-a538-055ada20431b/Mixer.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Palak Paneer",
+                description: "Fresh cottage cheese cubes in a creamy spinach curry with aromatic spices.",
+                price: 30000,
+                category: "North Indian",
+                imagePath: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Chettinad Chicken",
+                description: "Spicy South Indian chicken curry with a blend of aromatic spices and coconut.",
+                price: 36000,
+                category: "South Indian",
+                imagePath: "https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "the-spice-garden",
+                name: "Gulab Jamun",
+                description: "Soft milk dumplings deep-fried and soaked in sugar syrup flavored with cardamom.",
+                price: 12000,
+                category: "Desserts",
+                imagePath: "https://images.unsplash.com/photo-1571167781034-4be0c8d91030?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/shishkebab.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        const ITALIAN_MENU = [
+            {
+                restaurantId: "bella-italia",
+                name: "Margherita Pizza",
+                description: "Classic Neapolitan pizza with San Marzano tomatoes, fresh mozzarella, and basil.",
+                price: 35000,
+                category: "Pizza",
+                imagePath: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "bella-italia",
+                name: "Spaghetti Carbonara",
+                description: "Traditional Roman pasta with eggs, pecorino cheese, pancetta, and black pepper.",
+                price: 32000,
+                category: "Pasta",
+                imagePath: "https://images.unsplash.com/photo-1588013273468-315900bafd4d?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "bella-italia",
+                name: "Lasagna Bolognese",
+                description: "Layered pasta with rich meat sauce, béchamel, and melted mozzarella cheese.",
+                price: 38000,
+                category: "Pasta",
+                imagePath: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/shishkebab.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "bella-italia",
+                name: "Mushroom Risotto",
+                description: "Creamy Arborio rice with mixed mushrooms, white wine, and Parmesan cheese.",
+                price: 34000,
+                category: "Risotto",
+                imagePath: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://cdn.glitch.me/36cb8393-65c6-408d-a538-055ada20431b/Avocado.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "bella-italia",
+                name: "Osso Buco",
+                description: "Braised veal shanks with vegetables, white wine, and broth. Served with saffron risotto.",
+                price: 65000,
+                category: "Main Course",
+                imagePath: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://cdn.glitch.me/36cb8393-65c6-408d-a538-055ada20431b/Mixer.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            },
+            {
+                restaurantId: "bella-italia",
+                name: "Tiramisu",
+                description: "Classic Italian dessert with coffee-soaked ladyfingers and mascarpone cream.",
+                price: 18000,
+                category: "Desserts",
+                imagePath: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&h=600&fit=crop&auto=format",
+                modelPath: "https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb",
+                isAvailable: true,
+                createdAt: new Date().toISOString()
+            }
+        ];
+
+        // Test connection
+        document.getElementById('testConnection').addEventListener('click', async () => {
+            try {
+                const testDoc = doc(db, 'test', 'connection');
+                await setDoc(testDoc, {
+                    message: 'Hello MejaAR!',
+                    timestamp: new Date().toISOString(),
+                    test: true
+                });
+                showResult('connectionResult', '✅ Firebase connection successful!');
+            } catch (error) {
+                showResult('connectionResult', `❌ Connection failed: ${error.message}`, false);
+            }
+        });
+
+        // Add all restaurants
+        document.getElementById('addAllRestaurants').addEventListener('click', async () => {
+            try {
+                for (const restaurant of RESTAURANTS) {
+                    const restaurantDoc = doc(db, 'restaurants', restaurant.id);
+                    await setDoc(restaurantDoc, restaurant);
+                }
+                showResult('restaurantResult', `✅ Successfully added ${RESTAURANTS.length} restaurants!`);
+            } catch (error) {
+                showResult('restaurantResult', `❌ Failed to add restaurants: ${error.message}`, false);
+            }
+        });
+
+        // Add demo menu
+        document.getElementById('addDemoMenu').addEventListener('click', async () => {
+            try {
+                for (const item of DEMO_MENU) {
+                    const { restaurantId, ...itemData } = item;
+                    const itemDoc = doc(collection(db, 'restaurants', restaurantId, 'menuItems'));
+                    await setDoc(itemDoc, itemData);
+                }
+                showResult('demoMenuResult', `✅ Successfully added ${DEMO_MENU.length} demo menu items with nested structure!`);
+            } catch (error) {
+                showResult('demoMenuResult', `❌ Failed to add demo menu: ${error.message}`, false);
+            }
+        });
+
+        // Add Indian menu
+        document.getElementById('addIndianMenu').addEventListener('click', async () => {
+            try {
+                for (const item of INDIAN_MENU) {
+                    const { restaurantId, ...itemData } = item;
+                    const itemDoc = doc(collection(db, 'restaurants', restaurantId, 'menuItems'));
+                    await setDoc(itemDoc, itemData);
+                }
+                showResult('indianMenuResult', `✅ Successfully added ${INDIAN_MENU.length} Indian menu items with nested structure!`);
+            } catch (error) {
+                showResult('indianMenuResult', `❌ Failed to add Indian menu: ${error.message}`, false);
+            }
+        });
+
+        // Add Italian menu
+        document.getElementById('addItalianMenu').addEventListener('click', async () => {
+            try {
+                for (const item of ITALIAN_MENU) {
+                    const { restaurantId, ...itemData } = item;
+                    const itemDoc = doc(collection(db, 'restaurants', restaurantId, 'menuItems'));
+                    await setDoc(itemDoc, itemData);
+                }
+                showResult('italianMenuResult', `✅ Successfully added ${ITALIAN_MENU.length} Italian menu items with nested structure!`);
+            } catch (error) {
+                showResult('italianMenuResult', `❌ Failed to add Italian menu: ${error.message}`, false);
+            }
+        });
+
+        // Clear all data
+        document.getElementById('clearAllData').addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to delete ALL data? This cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                // Delete all restaurants and their subcollections
+                const restaurantsSnap = await getDocs(collection(db, 'restaurants'));
+                for (const restaurantDoc of restaurantsSnap.docs) {
+                    // Delete menu items subcollection
+                    const menuItemsSnap = await getDocs(collection(db, 'restaurants', restaurantDoc.id, 'menuItems'));
+                    for (const menuItemDoc of menuItemsSnap.docs) {
+                        await deleteDoc(menuItemDoc.ref);
+                    }
+                    
+                    // Delete categories subcollection
+                    const categoriesSnap = await getDocs(collection(db, 'restaurants', restaurantDoc.id, 'categories'));
+                    for (const categoryDoc of categoriesSnap.docs) {
+                        await deleteDoc(categoryDoc.ref);
+                    }
+                    
+                    // Delete restaurant document
+                    await deleteDoc(restaurantDoc.ref);
+                }
+                
+                // Also clean up any legacy collections (if they exist)
+                try {
+                    const legacyMenuSnap = await getDocs(collection(db, 'menuItems'));
+                    for (const docRef of legacyMenuSnap.docs) {
+                        await deleteDoc(docRef.ref);
+                    }
+                } catch (e) {
+                    // Ignore if collection doesn't exist
+                }
+                
+                try {
+                    const legacyCategoriesSnap = await getDocs(collection(db, 'categories'));
+                    for (const docRef of legacyCategoriesSnap.docs) {
+                        await deleteDoc(docRef.ref);
+                    }
+                } catch (e) {
+                    // Ignore if collection doesn't exist
+                }
+                
+                showResult('clearResult', '✅ All data has been cleared!');
+            } catch (error) {
+                showResult('clearResult', `❌ Failed to clear data: ${error.message}`, false);
+            }
+        });
+    </script>
+</body>
+</html>

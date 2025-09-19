@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Restaurant documents - allow read if active
+    match /restaurants/{restaurantId} {
+      allow read: if resource.data.isActive == true;
+      // Allow write for authenticated admin users (you can customize this)
+      allow write: if request.auth != null && request.auth.token.admin == true;
+      
+      // Nested categories subcollection
+      match /categories/{categoryId} {
+        allow read: if get(/databases/$(database)/documents/restaurants/$(restaurantId)).data.isActive == true
+                    && resource.data.isActive == true;
+        allow write: if request.auth != null && request.auth.token.admin == true;
+      }
+      
+      // Nested menu items subcollection  
+      match /menuItems/{itemId} {
+        allow read: if get(/databases/$(database)/documents/restaurants/$(restaurantId)).data.isActive == true
+                    && resource.data.isActive == true;
+        allow write: if request.auth != null && request.auth.token.admin == true;
+      }
+    }
+    
+    // Legacy collections (for backward compatibility during migration)
+    // Remove these rules after migration is complete
+    match /categories/{categoryId} {
+      allow read: if resource.data.isActive == true;
+    }
+    
+    match /menuItems/{itemId} {
+      allow read: if resource.data.isActive == true;
+    }
+  }
+}
